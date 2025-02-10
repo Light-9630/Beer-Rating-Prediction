@@ -23,7 +23,7 @@ from sklearn.metrics import mean_squared_error, r2_score,mean_absolute_error
 file_path="/content/drive/MyDrive/train.csv"
 df = pd.read_csv(file_path)
 
-# Drop unnecessary columns
+# Dropping unnecessary columns
 df.drop(["index", "beer/beerId", "beer/brewerId", "review/timeStruct", "review/timeUnix",
          "user/birthdayRaw", "user/birthdayUnix", "user/profileName","user/gender","user/ageInSeconds"], axis=1, inplace=True)
 
@@ -38,54 +38,54 @@ df["review/text"] = df["review/text"].fillna("")
 
 df.info()
 
-# Convert review text into numerical features using TF-IDF
+# Converting review text into numerical feature using TF-IDF
 tfidf = TfidfVectorizer(max_features=500)  # Limit to top 500 words
 tfidf_matrix = tfidf.fit_transform(df["review/text"]).toarray()
 
-# Convert TF-IDF to DataFrame
+# Converting TF-IDF to DataFrame
 tfidf_df = pd.DataFrame(tfidf_matrix, columns=[f"word_{i}" for i in range(tfidf_matrix.shape[1])])
 
-# Drop original text column
+# removing categorical column
 df.drop("review/text", axis=1, inplace=True)
 
-# Reset index to merge TF-IDF features
+# Resetting index to merge TF-IDF features
 df.reset_index(drop=True, inplace=True)
 tfidf_df.reset_index(drop=True, inplace=True)
 
-# Concatenate TF-IDF features with original dataframe
+#joining TF-IDF features with dataframe
 df = pd.concat([df, tfidf_df], axis=1)
 
-# Define input features (X) and target variable (y)
+# x- features and y-  traget variable
 X = df.drop("review/overall", axis=1)
 y = df["review/overall"]
 
-# Split data into training and testing sets (80-20 split)
+# Splitting data into training and testing sets (80% for training 20% for testing)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and train the model
+#Training RF Model
 rf_model = RandomForestRegressor(n_estimators=50, random_state=42)
 rf_model.fit(X_train, y_train)
 
 # Predictions
 y_pred = rf_model.predict(X_test)
 
-# Evaluate model
+# model evaluation
 rmse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 
-# Print performance metrics
+# validation metrics
 print(f"RMSE: {rmse:.4f}")
 print(f"R² Score: {r2:.4f}")
 
-# Calculate Model Accuracy
+#Accuracy
 accuracy = (1 - (rmse / y_test.mean())) * 100
 print(f"Model Accuracy: {accuracy:.2f}%")
 
-# Feature Importance Plot
+# Importany Feature Plot
 feature_importance = pd.Series(rf_model.feature_importances_, index=X.columns)
 
 plt.figure(figsize=(10, 6))
-feature_importance[:15].plot(kind="bar")
-plt.title("Top 15 Feature Importances in Random Forest Model")
+feature_importance[:7].plot(kind="bar")
+plt.title("Top 7 important features of Random Forest Model")
 plt.show()
 
