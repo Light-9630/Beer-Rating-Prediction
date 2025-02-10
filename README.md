@@ -56,7 +56,7 @@ After running the script, you will see:
 ## Model Accuracy
 
 | **Random Forest --- 95.9%** 
-| **Linear Regression --- 96%** 
+| **Linear Regression --- 96%** |
 
 
 ## License
