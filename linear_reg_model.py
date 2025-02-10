@@ -6,7 +6,7 @@ import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression  
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import  LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import mean_squared_error, r2_score
 
@@ -28,7 +28,7 @@ df["beer/style"] = label_encoder.fit_transform(df["beer/style"])
 df["review/text"] = df["review/text"].fillna("")
 
 # Converting review text into numerical using TF-IDF
-tfidf = TfidfVectorizer(max_features=500)  
+tfidf = TfidfVectorizer(max_features=200)  
 tfidf_matrix = tfidf.fit_transform(df["review/text"]).toarray()
 
 # Converting TF-IDF to DataFrame
