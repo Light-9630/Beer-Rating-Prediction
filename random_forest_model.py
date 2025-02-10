@@ -15,7 +15,7 @@ import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import StandardScaler,LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import mean_squared_error, r2_score,mean_absolute_error
 
@@ -39,7 +39,7 @@ df["review/text"] = df["review/text"].fillna("")
 df.info()
 
 # Converting review text into numerical feature using TF-IDF
-tfidf = TfidfVectorizer(max_features=500)  # Limit to top 500 words
+tfidf = TfidfVectorizer(max_features=200)  # Limiting to max 200 words
 tfidf_matrix = tfidf.fit_transform(df["review/text"]).toarray()
 
 # Converting TF-IDF to DataFrame
@@ -81,11 +81,4 @@ print(f"R² Score: {r2:.4f}")
 accuracy = (1 - (rmse / y_test.mean())) * 100
 print(f"Model Accuracy: {accuracy:.2f}%")
 
-# Importany Feature Plot
-feature_importance = pd.Series(rf_model.feature_importances_, index=X.columns)
-
-plt.figure(figsize=(10, 6))
-feature_importance[:7].plot(kind="bar")
-plt.title("Top 7 important features of Random Forest Model")
-plt.show()
 
