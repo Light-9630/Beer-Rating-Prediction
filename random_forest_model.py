@@ -20,7 +20,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import mean_squared_error, r2_score,mean_absolute_error
 
 #loading dataset train.csv
-file_path="/content/drive/MyDrive/train.csv"
+file_path="train.csv"
 df = pd.read_csv(file_path)
 
 # Dropping unnecessary columns
