@@ -44,7 +44,7 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 ```
 
 ### **2️ Run the Python Script**
-Execute the main script (`random_forest_model.py/linaer_reg_model.py`) in Google Colab or any Python environment:
+Execute the main script (`random_forest_model.py/linear_reg_model.py`) in Google Colab or any Python environment:
 ```bash
 python random_forest_model.py
 ```
